@@ -1,11 +1,9 @@
-import { CardinalDirection, Movement } from './constant';
-import { Coordinate } from './Coordinate';
+import { Movement } from './constant';
+import { Position } from './Position';
 
-interface Position extends Coordinate {
-  direction: CardinalDirection;
-}
+export type Instruction = keyof typeof Movement;
 
 export interface Rover {
-  positons: Position[][];
-  instructions: Movement[][];
+  position: Position;
+  instructions: Instruction[];
 }

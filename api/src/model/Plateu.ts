@@ -1,6 +1,6 @@
 import { Coordinate } from './Coordinate';
 
 export interface Plateu {
-  lowerLeft: { x: 0; y: 0 };
+  lowerLeft: [0, 0];
   upperRight: Coordinate;
 }

@@ -11,17 +11,17 @@
     "noEmit": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "baseUrl": "./src",
     "paths": {
+      "@domain/*": ["domain/*"],
+      "@domain": ["domain"],
       "@model/*": ["model/*"],
-      "@model": ["model"],
-      "@test/*": ["test/*"],
-      "@test": ["test"]
+      "@model": ["model"]
     }
   },
   "include": ["src/**/*"],
