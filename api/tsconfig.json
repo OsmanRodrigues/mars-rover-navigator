@@ -18,6 +18,8 @@
     "experimentalDecorators": true,
     "baseUrl": "./src",
     "paths": {
+      "@model/*": ["model/*"],
+      "@model": ["model"],
       "@test/*": ["test/*"],
       "@test": ["test"]
     }
