@@ -1,8 +1,8 @@
 export enum CardinalPoint {
   'N',
-  'W',
   'E',
-  'S'
+  'S',
+  'W'
 }
 
 export enum Movement {

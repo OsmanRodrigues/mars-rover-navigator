@@ -9,7 +9,9 @@ const { Move, InputConverter } = RoverUseCase;
 const position = InputConverter(inputs[0]) as Position;
 const instructions = InputConverter(inputs[1]) as Instruction[];
 
-Move({
+const finalPosition = Move({
   position,
   instructions
 });
+
+console.log('final: ', finalPosition);

@@ -32,22 +32,47 @@ export const RoverUseCase = {
   },
 
   Move: (rover: Rover): Position => {
-    const { instructions, position: initialPosition } = rover;
-    const finalPosition: Position = [...initialPosition];
+    const { instructions, position: currentPosition } = rover;
+    const [x, y, direction] = [...currentPosition];
+
+    let cardinalPointIndex = CardinalPoint[direction];
+    let newDirection = CardinalPoint[cardinalPointIndex];
+    let newX: number = x;
+    let newY: number = y;
 
     instructions.forEach(instruction => {
       switch (instruction) {
         case 'L':
+          cardinalPointIndex === 0
+            ? (newDirection = CardinalPoint[3])
+            : (newDirection = CardinalPoint[cardinalPointIndex - 1]);
+
           break;
 
         case 'R':
+          cardinalPointIndex === 3
+            ? (newDirection = CardinalPoint[0])
+            : (newDirection = CardinalPoint[cardinalPointIndex + 1]);
+
           break;
 
         case 'M':
+          newDirection === 'N' && (newY += 1);
+          newDirection === 'S' && (newY -= 1);
+          newDirection === 'W' && (newX -= 1);
+          newDirection === 'E' && (newX += 1);
+
           break;
       }
-      console.log(instruction, Movement[instruction]);
+
+      cardinalPointIndex = CardinalPoint[newDirection as CardinalDirection];
     });
+
+    const finalPosition: Position = [
+      newX,
+      newY,
+      newDirection as CardinalDirection
+    ];
 
     return finalPosition;
   }
