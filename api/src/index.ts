@@ -1,13 +1,12 @@
 import './module-aliases';
 import { RoverUseCase } from './domain';
-import { Instruction, Position } from './model';
 
-const inputs = ['12N', 'LMLMLMLMM'];
+const inputs = ['3 3 E', 'M M R MMRMRRM'];
 
-const { Move, InputConverter } = RoverUseCase;
+const { Move, InputParser } = RoverUseCase;
 
-const position = InputConverter(inputs[0]) as Position;
-const instructions = InputConverter(inputs[1]) as Instruction[];
+const position = InputParser(inputs[0]).getPosition();
+const instructions = InputParser(inputs[1]).getInstructions();
 
 const finalPosition = Move({
   position,

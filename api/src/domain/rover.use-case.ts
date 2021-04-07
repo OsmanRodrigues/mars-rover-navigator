@@ -7,28 +7,43 @@ import {
   Rover
 } from '@model';
 
+interface InputParserReturn {
+  getPosition: () => Position;
+  getInstructions: () => Instruction[];
+}
+
 export const RoverUseCase = {
-  InputConverter: (string: string): Position | Instruction[] => {
+  InputParser: (string: string): InputParserReturn => {
     const splitedString = string.split('');
-    const isPosition = splitedString.some(
+    const filteredString = splitedString.filter(
+      character => !!character.trim()
+    );
+    const isPosition = filteredString.some(
       (character: CardinalDirection) => !!(CardinalPoint[character] + 1)
     );
 
-    if (isPosition) {
-      const position: Position = [
-        +splitedString[0],
-        +splitedString[1],
-        splitedString[2] as CardinalDirection
-      ];
+    return {
+      getPosition: () => {
+        const parsedPosition: Position = isPosition
+          ? [
+              +filteredString[0],
+              +filteredString[1],
+              filteredString[2] as CardinalDirection
+            ]
+          : null;
 
-      return position;
-    }
+        return parsedPosition;
+      },
+      getInstructions: () => {
+        const parsedInstructions = isPosition
+          ? null
+          : (filteredString.filter(
+              (character: Instruction) => !!(Movement[character] + 1)
+            ) as Instruction[]);
 
-    const instructions = splitedString.filter(
-      (character: Instruction) => !!(Movement[character] + 1)
-    ) as Instruction[];
-
-    return instructions;
+        return parsedInstructions;
+      }
+    };
   },
 
   Move: (rover: Rover): Position => {
