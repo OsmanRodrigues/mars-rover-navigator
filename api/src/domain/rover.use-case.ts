@@ -74,10 +74,20 @@ export const RoverUseCase = {
 
     instructions.forEach(instruction => {
       if (instruction === 'M') {
-        currentDirection === 'N' && (currentY += 1);
-        currentDirection === 'S' && (currentY -= 1);
-        currentDirection === 'W' && (currentX -= 1);
-        currentDirection === 'E' && (currentX += 1);
+        switch (currentDirection) {
+          case 'N':
+            currentY < limitY ? currentY++ : currentY--;
+            break;
+          case 'S':
+            currentY > 0 ? currentY-- : currentY++;
+            break;
+          case 'W':
+            currentX > 0 ? currentX-- : currentX++;
+            break;
+          case 'E':
+            currentX < limitX ? currentX++ : currentX--;
+            break;
+        }
       } else {
         currentDirection = updateDirection(
           instruction,
