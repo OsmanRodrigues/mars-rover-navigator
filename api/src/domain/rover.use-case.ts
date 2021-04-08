@@ -47,11 +47,13 @@ export const RoverUseCase = {
         ? currentCardinalPointIndex === 0
         : currentCardinalPointIndex === 3;
 
-      return CardinalPoint[
+      const newCardinalDirection = CardinalPoint[
         onCardinalLimit
           ? cardinalCorrectionIndex
           : currentCardinalPointIndex + cardinalShiftIndex
       ] as CardinalDirection;
+
+      return newCardinalDirection;
     }
   },
 
