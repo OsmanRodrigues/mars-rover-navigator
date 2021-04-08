@@ -4,7 +4,7 @@ import { Coordinate, RoverInfosInput } from './model';
 //
 // Example
 //
-const limit: Coordinate = [5, 5];
+const limit: Coordinate = [2, 2];
 const rover1Infos: RoverInfosInput = ['1 2 N', 'LMLMLMLMM'];
 const rover2Infos: RoverInfosInput = ['3 3 E', 'MMRMMRMRRM'];
 

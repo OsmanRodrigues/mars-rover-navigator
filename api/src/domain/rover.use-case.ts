@@ -65,6 +65,10 @@ export const RoverUseCase = {
     const [limitX, limitY] = limit;
     const [x, y, direction] = [...initialPosition];
 
+    if (x > limitX || y > limitY) {
+      return initialPosition;
+    }
+
     let currentCardinalPointIndex = CardinalPoint[direction];
     let currentDirection = CardinalPoint[
       currentCardinalPointIndex
@@ -76,16 +80,16 @@ export const RoverUseCase = {
       if (instruction === 'M') {
         switch (currentDirection) {
           case 'N':
-            currentY < limitY ? currentY++ : currentY--;
+            currentY < limitY ? currentY++ : (currentDirection = 'S');
             break;
           case 'S':
-            currentY > 0 ? currentY-- : currentY++;
+            currentY > 0 ? currentY-- : (currentDirection = 'N');
             break;
           case 'W':
-            currentX > 0 ? currentX-- : currentX++;
+            currentX > 0 ? currentX-- : (currentDirection = 'E');
             break;
           case 'E':
-            currentX < limitX ? currentX++ : currentX--;
+            currentX < limitX ? currentX++ : (currentDirection = 'W');
             break;
         }
       } else {
