@@ -36,7 +36,8 @@ export const RoverUseCase = {
 
       return convertedInput;
     },
-    shiftDirection: (
+
+    updateDirection: (
       currentInstruction: Instruction,
       currentCardinalPointIndex: CardinalPoint
     ): CardinalDirection => {
@@ -46,49 +47,48 @@ export const RoverUseCase = {
       const onCardinalLimit = toLeft
         ? currentCardinalPointIndex === 0
         : currentCardinalPointIndex === 3;
+      const updatedCardinalIndex = onCardinalLimit
+        ? cardinalCorrectionIndex
+        : currentCardinalPointIndex + cardinalShiftIndex;
 
-      const newCardinalDirection = CardinalPoint[
-        onCardinalLimit
-          ? cardinalCorrectionIndex
-          : currentCardinalPointIndex + cardinalShiftIndex
+      const updatedCardinalDirection = CardinalPoint[
+        updatedCardinalIndex
       ] as CardinalDirection;
 
-      return newCardinalDirection;
+      return updatedCardinalDirection;
     }
   },
 
   move: (roverInfos: RoverInfosInput, limit: Coordinate): Position => {
-    const { convertInput, shiftDirection } = RoverUseCase[HelpersKey];
-
+    const { convertInput, updateDirection } = RoverUseCase[HelpersKey];
     const [initialPosition, instructions] = convertInput(roverInfos);
     const [limitX, limitY] = limit;
     const [x, y, direction] = [...initialPosition];
 
-    let cardinalPointIndex = CardinalPoint[direction];
-    let newDirection = CardinalPoint[cardinalPointIndex] as CardinalDirection;
-    let newX: number = x;
-    let newY: number = y;
+    let currentCardinalPointIndex = CardinalPoint[direction];
+    let currentDirection = CardinalPoint[
+      currentCardinalPointIndex
+    ] as CardinalDirection;
+    let currentX = x;
+    let currentY = y;
 
     instructions.forEach(instruction => {
-      switch (instruction) {
-        case 'M':
-          newDirection === 'N' && (newY += 1);
-          newDirection === 'S' && (newY -= 1);
-          newDirection === 'W' && (newX -= 1);
-          newDirection === 'E' && (newX += 1);
-
-          break;
-
-        default:
-          newDirection = shiftDirection(instruction, cardinalPointIndex);
-
-          break;
+      if (instruction === 'M') {
+        currentDirection === 'N' && (currentY += 1);
+        currentDirection === 'S' && (currentY -= 1);
+        currentDirection === 'W' && (currentX -= 1);
+        currentDirection === 'E' && (currentX += 1);
+      } else {
+        currentDirection = updateDirection(
+          instruction,
+          currentCardinalPointIndex
+        );
       }
 
-      cardinalPointIndex = CardinalPoint[newDirection];
+      currentCardinalPointIndex = CardinalPoint[currentDirection];
     });
 
-    const finalPosition: Position = [newX, newY, newDirection];
+    const finalPosition: Position = [currentX, currentY, currentDirection];
 
     return finalPosition;
   }
