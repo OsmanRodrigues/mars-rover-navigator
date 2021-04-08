@@ -1,23 +1,18 @@
 import './module-aliases';
 import { RoverUseCase } from './domain';
+import { HoverInfosInput } from './model';
 //
 // Example
 //
-const rover1 = ['1 2 N', 'LMLMLMLMM'];
-const rover2 = ['3 3 E', 'MMRMMRMRRM'];
+const rover1Infos: HoverInfosInput = ['1 2 N', 'LMLMLMLMM'];
+const rover2Infos: HoverInfosInput = ['3 3 E', 'MMRMMRMRRM'];
 
-const rovers = [rover1, rover2];
+const rovers = [rover1Infos, rover2Infos];
 
-const { Move, InputParser } = RoverUseCase;
+const { Move } = RoverUseCase;
 
-rovers.forEach((rover, index) => {
-  const position = InputParser(rover[0]).getPosition();
-  const instructions = InputParser(rover[1]).getInstructions();
-
-  const finalPosition = Move({
-    position,
-    instructions
-  });
+rovers.forEach((roverInfos, index) => {
+  const finalPosition = Move(roverInfos);
 
   console.log(index, 'final: ', finalPosition);
 });

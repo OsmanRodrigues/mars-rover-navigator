@@ -1,54 +1,48 @@
 import {
   CardinalDirection,
   CardinalPoint,
+  HoverInfosInput,
   Instruction,
-  Movement,
-  Position,
-  Rover
+  Position
 } from '@model';
 
 interface InputParserReturn {
-  getPosition: () => Position;
-  getInstructions: () => Instruction[];
+  initialPosition: Position;
+  instructions: Instruction[];
 }
 
+const InputParserKey = Symbol('InputParser');
+
 export const RoverUseCase = {
-  InputParser: (string: string): InputParserReturn => {
-    const splitedString = string.split('');
-    const filteredString = splitedString.filter(
-      character => !!character.trim()
-    );
-    const isPosition = filteredString.some(
-      (character: CardinalDirection) => !!(CardinalPoint[character] + 1)
-    );
+  [InputParserKey]: (input: HoverInfosInput): InputParserReturn => {
+    const [initialPosition, instructions] = input.map((string, index) => {
+      const splittedCharacters = string.split('');
+      const filteredCharacters = splittedCharacters.filter(
+        character => !!character.trim()
+      );
+      const positionOrInstructionCharacters =
+        index === 0
+          ? [
+              +filteredCharacters[0],
+              +filteredCharacters[1],
+              filteredCharacters[2] as CardinalDirection
+            ]
+          : filteredCharacters;
+
+      return positionOrInstructionCharacters;
+    }) as [Position, Instruction[]];
 
     return {
-      getPosition: () => {
-        const parsedPosition: Position = isPosition
-          ? [
-              +filteredString[0],
-              +filteredString[1],
-              filteredString[2] as CardinalDirection
-            ]
-          : null;
-
-        return parsedPosition;
-      },
-      getInstructions: () => {
-        const parsedInstructions = isPosition
-          ? null
-          : (filteredString.filter(
-              (character: Instruction) => !!(Movement[character] + 1)
-            ) as Instruction[]);
-
-        return parsedInstructions;
-      }
+      initialPosition,
+      instructions
     };
   },
 
-  Move: (rover: Rover): Position => {
-    const { instructions, position: currentPosition } = rover;
-    const [x, y, direction] = [...currentPosition];
+  Move: (roverInfos: HoverInfosInput): Position => {
+    const { initialPosition, instructions } = RoverUseCase[InputParserKey](
+      roverInfos
+    );
+    const [x, y, direction] = [...initialPosition];
 
     let cardinalPointIndex = CardinalPoint[direction];
     let newDirection = CardinalPoint[cardinalPointIndex];
