@@ -6,16 +6,16 @@ import {
   Position
 } from '@model';
 
-interface InputParserReturn {
-  initialPosition: Position;
-  instructions: Instruction[];
-}
+type InputParserReturn = [
+  initialPosition: Position,
+  instructions: Instruction[]
+];
 
 const InputParserKey = Symbol('InputParser');
 
 export const RoverUseCase = {
   [InputParserKey]: (input: HoverInfosInput): InputParserReturn => {
-    const [initialPosition, instructions] = input.map((string, index) => {
+    const parsedInput = input.map((string, index) => {
       const splittedCharacters = string.split('');
       const filteredCharacters = splittedCharacters.filter(
         character => !!character.trim()
@@ -32,14 +32,11 @@ export const RoverUseCase = {
       return positionOrInstructionCharacters;
     }) as [Position, Instruction[]];
 
-    return {
-      initialPosition,
-      instructions
-    };
+    return parsedInput;
   },
 
   Move: (roverInfos: HoverInfosInput): Position => {
-    const { initialPosition, instructions } = RoverUseCase[InputParserKey](
+    const [initialPosition, instructions] = RoverUseCase[InputParserKey](
       roverInfos
     );
     const [x, y, direction] = [...initialPosition];
