@@ -1,67 +1,74 @@
 import {
   CardinalDirection,
   CardinalPoint,
+  Coordinate,
   HoverInfosInput,
   Instruction,
   Position
 } from '@model';
 
-type InputParserReturn = [
+type ConvertInputReturn = [
   initialPosition: Position,
   instructions: Instruction[]
 ];
 
-const InputParserKey = Symbol('InputParser');
+const HelpersKey = Symbol('RoverUseCaseHelpers');
 
 export const RoverUseCase = {
-  [InputParserKey]: (input: HoverInfosInput): InputParserReturn => {
-    const parsedInput = input.map((string, index) => {
-      const splittedCharacters = string.split('');
-      const filteredCharacters = splittedCharacters.filter(
-        character => !!character.trim()
-      );
-      const positionOrInstructionCharacters =
-        index === 0
-          ? [
-              +filteredCharacters[0],
-              +filteredCharacters[1],
-              filteredCharacters[2] as CardinalDirection
-            ]
-          : filteredCharacters;
+  [HelpersKey]: {
+    convertInput: (input: HoverInfosInput): ConvertInputReturn => {
+      const convertedInput = input.map((string, index) => {
+        const splittedCharacters = string.split('');
+        const filteredCharacters = splittedCharacters.filter(
+          character => !!character.trim()
+        );
+        const positionOrInstructionCharacters =
+          index === 0
+            ? [
+                +filteredCharacters[0],
+                +filteredCharacters[1],
+                filteredCharacters[2] as CardinalDirection
+              ]
+            : filteredCharacters;
 
-      return positionOrInstructionCharacters;
-    }) as [Position, Instruction[]];
+        return positionOrInstructionCharacters;
+      }) as [Position, Instruction[]];
 
-    return parsedInput;
+      return convertedInput;
+    },
+    shiftDirection: (
+      currentInstruction: Instruction,
+      currentCardinalPointIndex: CardinalPoint
+    ): CardinalDirection => {
+      const toLeft = currentInstruction === 'L';
+      const cardinalCorrectionIndex = toLeft ? 3 : 0;
+      const cardinalShiftIndex = toLeft ? -1 : 1;
+      const onCardinalLimit = toLeft
+        ? currentCardinalPointIndex === 0
+        : currentCardinalPointIndex === 3;
+
+      return CardinalPoint[
+        onCardinalLimit
+          ? cardinalCorrectionIndex
+          : currentCardinalPointIndex + cardinalShiftIndex
+      ] as CardinalDirection;
+    }
   },
 
-  Move: (roverInfos: HoverInfosInput): Position => {
-    const [initialPosition, instructions] = RoverUseCase[InputParserKey](
-      roverInfos
-    );
+  move: (roverInfos: HoverInfosInput, limit: Coordinate): Position => {
+    const { convertInput, shiftDirection } = RoverUseCase[HelpersKey];
+
+    const [initialPosition, instructions] = convertInput(roverInfos);
+    const [limitX, limitY] = limit;
     const [x, y, direction] = [...initialPosition];
 
     let cardinalPointIndex = CardinalPoint[direction];
-    let newDirection = CardinalPoint[cardinalPointIndex];
+    let newDirection = CardinalPoint[cardinalPointIndex] as CardinalDirection;
     let newX: number = x;
     let newY: number = y;
 
     instructions.forEach(instruction => {
       switch (instruction) {
-        case 'L':
-          cardinalPointIndex === 0
-            ? (newDirection = CardinalPoint[3])
-            : (newDirection = CardinalPoint[cardinalPointIndex - 1]);
-
-          break;
-
-        case 'R':
-          cardinalPointIndex === 3
-            ? (newDirection = CardinalPoint[0])
-            : (newDirection = CardinalPoint[cardinalPointIndex + 1]);
-
-          break;
-
         case 'M':
           newDirection === 'N' && (newY += 1);
           newDirection === 'S' && (newY -= 1);
@@ -69,16 +76,17 @@ export const RoverUseCase = {
           newDirection === 'E' && (newX += 1);
 
           break;
+
+        default:
+          newDirection = shiftDirection(instruction, cardinalPointIndex);
+
+          break;
       }
 
-      cardinalPointIndex = CardinalPoint[newDirection as CardinalDirection];
+      cardinalPointIndex = CardinalPoint[newDirection];
     });
 
-    const finalPosition: Position = [
-      newX,
-      newY,
-      newDirection as CardinalDirection
-    ];
+    const finalPosition: Position = [newX, newY, newDirection];
 
     return finalPosition;
   }
