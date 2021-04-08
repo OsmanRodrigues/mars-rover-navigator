@@ -1,12 +1,12 @@
 import './module-aliases';
 import { RoverUseCase } from './domain';
-import { Coordinate, HoverInfosInput } from './model';
+import { Coordinate, RoverInfosInput } from './model';
 //
 // Example
 //
 const limit: Coordinate = [5, 5];
-const rover1Infos: HoverInfosInput = ['1 2 N', 'LMLMLMLMM'];
-const rover2Infos: HoverInfosInput = ['3 3 E', 'MMRMMRMRRM'];
+const rover1Infos: RoverInfosInput = ['1 2 N', 'LMLMLMLMM'];
+const rover2Infos: RoverInfosInput = ['3 3 E', 'MMRMMRMRRM'];
 
 const rovers = [rover1Infos, rover2Infos];
 

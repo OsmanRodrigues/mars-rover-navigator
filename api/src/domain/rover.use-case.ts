@@ -2,7 +2,7 @@ import {
   CardinalDirection,
   CardinalPoint,
   Coordinate,
-  HoverInfosInput,
+  RoverInfosInput,
   Instruction,
   Position
 } from '@model';
@@ -16,7 +16,7 @@ const HelpersKey = Symbol('RoverUseCaseHelpers');
 
 export const RoverUseCase = {
   [HelpersKey]: {
-    convertInput: (input: HoverInfosInput): ConvertInputReturn => {
+    convertInput: (input: RoverInfosInput): ConvertInputReturn => {
       const convertedInput = input.map((string, index) => {
         const splittedCharacters = string.split('');
         const filteredCharacters = splittedCharacters.filter(
@@ -55,7 +55,7 @@ export const RoverUseCase = {
     }
   },
 
-  move: (roverInfos: HoverInfosInput, limit: Coordinate): Position => {
+  move: (roverInfos: RoverInfosInput, limit: Coordinate): Position => {
     const { convertInput, shiftDirection } = RoverUseCase[HelpersKey];
 
     const [initialPosition, instructions] = convertInput(roverInfos);
