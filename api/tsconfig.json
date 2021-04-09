@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "skipLibCheck": true,
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
@@ -18,10 +19,16 @@
     "experimentalDecorators": true,
     "baseUrl": "./src",
     "paths": {
+      "@adapter/*": ["adapter/*"],
+      "@adapter": ["adapter"],
+      "@data/*": ["data/*"],
+      "@data": ["data"],
       "@domain/*": ["domain/*"],
       "@domain": ["domain"],
       "@model/*": ["model/*"],
-      "@model": ["model"]
+      "@model": ["model"],
+      "@modules/*": ["modules/*"],
+      "@modules": ["modules"]
     }
   },
   "include": ["src/**/*"],
