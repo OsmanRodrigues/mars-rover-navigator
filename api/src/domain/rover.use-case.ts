@@ -4,7 +4,8 @@ import {
   Coordinate,
   RoverInfosInput,
   Instruction,
-  Position
+  Position,
+  RoverAction
 } from '@model';
 
 type ConvertInputReturn = [
@@ -59,7 +60,10 @@ export const RoverUseCase = {
     }
   },
 
-  move: (roverInfos: RoverInfosInput, limit: Coordinate): Position => {
+  [RoverAction.move]: (
+    roverInfos: RoverInfosInput,
+    limit: Coordinate
+  ): Position => {
     const { convertInput, updateDirection } = RoverUseCase[HelpersKey];
     const [initialPosition, instructions] = convertInput(roverInfos);
     const [limitX, limitY] = limit;

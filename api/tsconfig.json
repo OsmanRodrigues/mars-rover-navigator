@@ -19,6 +19,8 @@
     "experimentalDecorators": true,
     "baseUrl": "./src",
     "paths": {
+      "@adapter/*": ["adapter/*"],
+      "@adapter": ["adapter"],
       "@domain/*": ["domain/*"],
       "@domain": ["domain"],
       "@model/*": ["model/*"],
