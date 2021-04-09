@@ -6,11 +6,11 @@ interface ErrorGeneratorInput {
   message: string;
 }
 
-export const errorGenerator = (errorInfos: ErrorGeneratorInput) => {
-  const { error, message, statusCode } = errorInfos;
-
+export const errorGenerator = (defaultErrorInfos?: ErrorGeneratorInput) => {
   return {
-    generate: () => {
+    generate: (errorInfos?: ErrorGeneratorInput) => {
+      const { error, message, statusCode } = errorInfos || defaultErrorInfos;
+
       throw new CustomError(statusCode, error, message);
     }
   };
