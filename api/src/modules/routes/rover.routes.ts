@@ -1,12 +1,10 @@
 import { RoverController } from '@adapter/controller';
 import { ServerRoute } from '@hapi/hapi';
-
-const { move } = RoverController;
-
+import { RouteName } from './route-name.routes';
 export const roverRoutes: ServerRoute[] = [
   {
     method: ['GET'],
-    path: '/move',
-    handler: move
+    path: RouteName.Rover.move,
+    handler: RoverController.move
   }
 ];
