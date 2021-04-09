@@ -8,8 +8,8 @@
   "scripts": {
     "check-types": "yarn tsc --noEmit",
     "lint": "yarn eslint 'src/**/*.{ts,tsx}' && yarn check-types",
-    "start": "yarn ts-node ./src/app.ts",
-    "dev": "yarn lint && yarn nodemon ./src/app.ts"
+    "start": "yarn ts-node ./src/api.ts",
+    "dev": "yarn lint && yarn nodemon ./src/api.ts"
   },
   "devDependencies": {
     "@types/hapi__hapi": "^20.0.5",
@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@hapi/hapi": "^20.1.2",
+    "dotenv": "^8.2.0",
     "module-alias": "^2.2.2"
   }
 }
