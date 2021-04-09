@@ -2,6 +2,7 @@ import { MovePayload } from '@data/rover.data';
 import { Lifecycle } from '@hapi/hapi';
 import { RoverAction } from '@model/Rover';
 import { errorGenerator } from '@modules/utils';
+import { isArray } from 'node:util';
 
 type RoverController = {
   [key in RoverAction]: Lifecycle.Method;
@@ -42,23 +43,33 @@ const RoverControllerHelpers = {
 
     payloadKeys.forEach(key => {
       const targetKey = key as keyof MovePayload;
-      const tagetValue = payload[targetKey];
+      const targetValue = payload[targetKey];
 
       const error = 'Invalid payload';
       const statusCode = 400;
-      const message = !tagetValue && `The ${targetKey} field must be provided.`;
-      const defaultError = errorGenerator({
-        error,
-        message,
-        statusCode
-      });
+
+      const message1 =
+        !targetValue && `The ${targetKey} field must be provided.`;
+      const message2 =
+        (!Array.isArray(targetValue) || targetValue.length !== 2) &&
+        `The ${targetKey} field must be a two items array.`;
+
+      const hasValueError = Boolean(message1 || message2);
+      const defaultError =
+        hasValueError &&
+        errorGenerator({
+          error,
+          message: message1 || message2,
+          statusCode
+        });
+
       switch (targetKey) {
         case 'limitCoordinate':
-          message && defaultError.generate();
+          defaultError?.generate?.();
           break;
 
         case 'roverInfos':
-          message && defaultError.generate();
+          defaultError?.generate?.();
           break;
 
         default:
