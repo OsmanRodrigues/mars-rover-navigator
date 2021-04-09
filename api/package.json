@@ -6,9 +6,10 @@
   "author": "OsmanRodrigues <osmancesar.mr@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "check-types": "tsc --noEmit",
-    "lint": "eslint 'src/**/*.{ts,tsx}' && yarn run check-types",
-    "start": "yarn ts-node ./src/app.ts"
+    "check-types": "yarn tsc --noEmit",
+    "lint": "yarn eslint 'src/**/*.{ts,tsx}' && yarn check-types",
+    "start": "yarn ts-node ./src/app.ts",
+    "dev": "yarn lint && yarn nodemon ./src/app.ts"
   },
   "devDependencies": {
     "@types/hapi__hapi": "^20.0.5",
@@ -22,6 +23,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-promise": "^4.2.1",
+    "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"

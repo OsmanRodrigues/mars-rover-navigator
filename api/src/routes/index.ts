@@ -5,7 +5,7 @@ const routeDefault: ServerRoute = {
   method: ['GET'],
   path: '/',
   handler: () => ({
-    message: 'Hello mars'
+    message: 'Hello mars!'
   })
 };
 
