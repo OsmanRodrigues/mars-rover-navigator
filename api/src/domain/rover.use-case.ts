@@ -56,10 +56,10 @@ export const RoverUseCase: RoverUseCase = {
             break;
         }
       } else {
-        currentDirection = updateDirection(
+        currentDirection = updateDirection({
           instruction,
           currentCardinalPointIndex
-        );
+        });
       }
 
       currentCardinalPointIndex = CardinalPoint[currentDirection];
@@ -118,11 +118,13 @@ const RoverUseCaseHelpers = {
     return convertedInput;
   },
 
-  updateDirection: (
-    currentInstruction: Instruction,
-    currentCardinalPointIndex: CardinalPoint
-  ): CardinalDirection => {
-    const toLeft = currentInstruction === 'L';
+  updateDirection: (params: {
+    instruction: Instruction;
+    currentCardinalPointIndex: CardinalPoint;
+  }): CardinalDirection => {
+    const { currentCardinalPointIndex, instruction } = params;
+
+    const toLeft = instruction === 'L';
     const cardinalCorrectionIndex = toLeft ? 3 : 0;
     const cardinalShiftIndex = toLeft ? -1 : 1;
     const onCardinalLimit = toLeft
