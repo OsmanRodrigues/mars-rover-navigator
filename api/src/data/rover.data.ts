@@ -1,5 +1,4 @@
-import { Coordinate } from '@model/Coordinate';
-import { RoverInfosInput } from '@model/Rover';
+import { Coordinate, RoverInfosInput } from '@model';
 
 export interface MovePayload {
   roverInfos: RoverInfosInput;
