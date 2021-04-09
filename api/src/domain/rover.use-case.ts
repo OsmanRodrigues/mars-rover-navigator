@@ -77,48 +77,40 @@ const RoverUseCaseHelpers = {
     const cardinalPointPattern = /['NESW']/;
     const instructionsPattern = /['LRM']/;
 
-    const convertedInput = input.map((string, index) => {
+    const convertedInput = input.map((string, stringIndex) => {
+      const isPositionString = stringIndex === 0;
       const splittedCharacters = string.split('');
       const filteredCharacters = splittedCharacters.filter(
         character => !!character.trim()
       );
 
-      if (index === 0) {
-        filteredCharacters.forEach((character, characterIndex) => {
-          const matched = character.match(
-            characterIndex > 1 ? cardinalPointPattern : coordinatePattern
-          );
+      filteredCharacters.forEach((character, characterIndex) => {
+        const isCardinalPointCharacter = characterIndex > 1;
+        const matched = character.match(
+          isPositionString
+            ? isCardinalPointCharacter
+              ? cardinalPointPattern
+              : coordinatePattern
+            : instructionsPattern
+        );
 
-          !matched &&
-            errorGenerator().generate({
-              error: 'Invalid input',
-              message:
-                'Expected initial position pattern (number, number and cardinal direction) not met.',
-              statusCode: 400
-            });
-        });
-      } else {
-        filteredCharacters.forEach(character => {
-          const matched = character.match(instructionsPattern);
+        !matched &&
+          errorGenerator().generate({
+            error: 'Invalid input',
+            message: isPositionString
+              ? 'Expected initial position pattern (number, number and cardinal direction) not met.'
+              : 'Expected instructions pattern (left or right or move foward) not met.',
+            statusCode: 400
+          });
+      });
 
-          !matched &&
-            errorGenerator().generate({
-              error: 'Invalid input',
-              message:
-                'Expected instructions pattern (left or right or move foward) not met.',
-              statusCode: 400
-            });
-        });
-      }
-
-      const positionOrInstructionCharacters =
-        index === 0
-          ? [
-              +filteredCharacters[0],
-              +filteredCharacters[1],
-              filteredCharacters[2] as CardinalDirection
-            ]
-          : filteredCharacters;
+      const positionOrInstructionCharacters = isPositionString
+        ? [
+            +filteredCharacters[0],
+            +filteredCharacters[1],
+            filteredCharacters[2] as CardinalDirection
+          ]
+        : filteredCharacters;
 
       return positionOrInstructionCharacters;
     }) as [Position, Instruction[]];
