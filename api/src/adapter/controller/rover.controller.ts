@@ -17,7 +17,6 @@ export const RoverController: RoverController = {
 
       return res.response({ finalPosition }).code(200);
     } catch (err) {
-      console.log('err: ', err);
       const { error, message, statusCode } = err;
 
       return res
