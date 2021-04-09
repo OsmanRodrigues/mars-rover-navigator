@@ -21,6 +21,8 @@
     "paths": {
       "@adapter/*": ["adapter/*"],
       "@adapter": ["adapter"],
+      "@data/*": ["data/*"],
+      "@data": ["data"],
       "@domain/*": ["domain/*"],
       "@domain": ["domain"],
       "@model/*": ["model/*"],
