@@ -21,7 +21,9 @@
       "@domain/*": ["domain/*"],
       "@domain": ["domain"],
       "@model/*": ["model/*"],
-      "@model": ["model"]
+      "@model": ["model"],
+      "@routes/*": ["routes/*"],
+      "@routes": ["routes"]
     }
   },
   "include": ["src/**/*"],

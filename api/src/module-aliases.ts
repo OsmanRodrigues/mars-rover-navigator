@@ -4,5 +4,6 @@ ModuleAlias.addAliases({
   '@root': __dirname,
   '@adapter': __dirname.concat('/adapter'),
   '@domain': __dirname.concat('/domain'),
-  '@model': __dirname.concat('/model')
+  '@model': __dirname.concat('/model'),
+  '@routes': __dirname.concat('/routes')
 });
