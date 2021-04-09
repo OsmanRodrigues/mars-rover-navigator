@@ -9,10 +9,10 @@ import {
 } from '@model';
 
 type RoverUseCase = {
-  [key in RoverAction]: (
-    roverInfos: RoverInfosInput,
-    limit: Coordinate
-  ) => Position;
+  [key in RoverAction]: (params: {
+    roverInfos: RoverInfosInput;
+    limitCoordinate: Coordinate;
+  }) => Position;
 };
 
 type ConvertInputReturn = [
@@ -21,10 +21,10 @@ type ConvertInputReturn = [
 ];
 
 export const RoverUseCase: RoverUseCase = {
-  [RoverAction.move]: (roverInfos, limit) => {
+  [RoverAction.move]: params => {
     const { convertInput, updateDirection } = RoverUseCaseHelpers;
-    const [initialPosition, instructions] = convertInput(roverInfos);
-    const [limitX, limitY] = limit;
+    const [initialPosition, instructions] = convertInput(params.roverInfos);
+    const [limitX, limitY] = params.limitCoordinate;
     const [x, y, direction] = [...initialPosition];
 
     if (x > limitX || y > limitY) {

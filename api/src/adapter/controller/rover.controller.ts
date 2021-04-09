@@ -1,8 +1,8 @@
 import { MovePayload } from '@data/rover.data';
+import { RoverUseCase } from '@domain/rover.use-case';
 import { Lifecycle } from '@hapi/hapi';
 import { RoverAction } from '@model/Rover';
 import { errorGenerator } from '@modules/utils';
-import { isArray } from 'node:util';
 
 type RoverController = {
   [key in RoverAction]: Lifecycle.Method;
@@ -13,8 +13,9 @@ export const RoverController: RoverController = {
     try {
       const movePayload = req.payload as MovePayload;
       RoverControllerHelpers.validPayload(movePayload);
+      const finalPosition = RoverUseCase.move(movePayload);
 
-      return { message: 'Rover moving...' };
+      return res.response({ finalPosition }).code(200);
     } catch (err) {
       console.log('err: ', err);
       const { error, message, statusCode } = err;
