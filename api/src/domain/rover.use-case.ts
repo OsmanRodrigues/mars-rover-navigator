@@ -7,6 +7,7 @@ import {
   Position,
   RoverAction
 } from '@model';
+import { errorGenerator } from '@modules/utils';
 
 type RoverUseCase = {
   [key in RoverAction]: (params: {
@@ -72,11 +73,44 @@ export const RoverUseCase: RoverUseCase = {
 
 const RoverUseCaseHelpers = {
   convertInput: (input: RoverInfosInput): ConvertInputReturn => {
+    const coordinatePattern = /[0-9]/;
+    const cardinalPointPattern = /['NESW']/;
+    const instructionsPattern = /['LRM']/;
+
     const convertedInput = input.map((string, index) => {
       const splittedCharacters = string.split('');
       const filteredCharacters = splittedCharacters.filter(
         character => !!character.trim()
       );
+
+      if (index === 0) {
+        filteredCharacters.forEach((character, characterIndex) => {
+          const matched = character.match(
+            characterIndex > 1 ? cardinalPointPattern : coordinatePattern
+          );
+
+          !matched &&
+            errorGenerator().generate({
+              error: 'Invalid input',
+              message:
+                'Expected initial position pattern (number, number and cardinal direction) not met.',
+              statusCode: 400
+            });
+        });
+      } else {
+        filteredCharacters.forEach(character => {
+          const matched = character.match(instructionsPattern);
+
+          !matched &&
+            errorGenerator().generate({
+              error: 'Invalid input',
+              message:
+                'Expected instructions pattern (left or right or move foward) not met.',
+              statusCode: 400
+            });
+        });
+      }
+
       const positionOrInstructionCharacters =
         index === 0
           ? [
