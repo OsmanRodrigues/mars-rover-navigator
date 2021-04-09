@@ -6,12 +6,10 @@ interface ErrorGeneratorInput {
   message: string;
 }
 
-export const errorGenerator = (defaultErrorInfos?: ErrorGeneratorInput) => {
-  return {
-    generate: (errorInfos?: ErrorGeneratorInput) => {
-      const { error, message, statusCode } = errorInfos || defaultErrorInfos;
+export const errorGenerator = (defaultErrorInfos?: ErrorGeneratorInput) => ({
+  generate: (errorInfos?: ErrorGeneratorInput) => {
+    const { error, message, statusCode } = errorInfos || defaultErrorInfos;
 
-      throw new CustomError(statusCode, error, message);
-    }
-  };
-};
+    throw new CustomError(statusCode, error, message);
+  }
+});
