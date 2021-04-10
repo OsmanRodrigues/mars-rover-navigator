@@ -1,5 +1,4 @@
 import { Wrapper } from '@components/test.component';
-import Head from 'next/head';
 
 export default function Home() {
   return (
