@@ -7,6 +7,7 @@ interface TypographyProps {
 
 const typographyShared = css<TypographyProps>`
   text-align: ${({ center }) => (center ? "center" : "left")};
+  text-justify: center;
   background: none;
   color: ${({ highlight, theme }) =>
     highlight ? theme.colors.background : "unset"};

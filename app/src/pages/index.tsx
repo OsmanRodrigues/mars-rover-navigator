@@ -11,14 +11,15 @@ export default function Home() {
           <HeroDisplay center={true}>{"Hello, Navigator!"}</HeroDisplay>
         </Col>
       </Row>
-      <Separator />
+      <Separator size="large" />
       <Row>
         <Col xs={12}>
-          <H1 center={true}>{"Click to navigate"}</H1>
+          <H1 center={true}>{"Enter infos and navigate"}</H1>
         </Col>
       </Row>
-      <Row>
-        <Col>
+      <Separator size="small" />
+      <Row justify="center">
+        <Col md={8}>
           <NavigateForm />
         </Col>
       </Row>

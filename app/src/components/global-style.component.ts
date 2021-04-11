@@ -1,6 +1,10 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
+  html{
+    font-size: 24px;
+  }
+
   *{
     margin: 0;
     padding: 0;
@@ -8,12 +12,12 @@ export const GlobalStyle = createGlobalStyle`
     @font-face{
       font-family: ${({ theme }) => theme.typography.fontFamily};
       src: url('/static/fonts/Calculator.ttf');
-      font-style: normal;
-      font-weight: 600;
+      font-weight: 500;
+      font-display: swap;
+      text-rendering: optimizeLegibility;
     };
     ${({ theme: { colors, typography } }) =>
       `
-    font-size: ${typography.size.medium};
     font-family: ${typography.fontFamily};
     background: ${colors.background};
     color: ${colors.primary};

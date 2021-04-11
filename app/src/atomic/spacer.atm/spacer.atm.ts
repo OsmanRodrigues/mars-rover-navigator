@@ -20,4 +20,5 @@ export const Separator = styled.div<SeparatorProps>`
         display: block;
         height: ${Gap[capitalize(size)]};
         `}
+  background: none;
 `;

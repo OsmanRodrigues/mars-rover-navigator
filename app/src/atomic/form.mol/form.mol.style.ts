@@ -1,5 +1,10 @@
-import { boxShadowStyle } from "@atomic/constants.obj";
+import { boxShadowStyle, Gap } from "@atomic/constants.obj";
 import styled from "styled-components";
+import { InputType } from "./input.atm";
+
+interface InputProps {
+  expanded?: boolean;
+}
 
 const Wrapper = styled.form`
   ${boxShadowStyle};
@@ -13,7 +18,19 @@ const Wrapper = styled.form`
   * {
     border-radius: inherit;
   }
+  div {
+    background-color: inherit;
+  }
 `;
-const Input = styled.input``;
+const Input = styled.input<InputProps>`
+  min-height: ${Gap.Large};
+  max-width: 100%;
+  ${({ theme, expanded, type }) => `
+    font-size: ${theme.typography.size.normal};
+    width:${expanded || type === InputType.TextArea ? "100%" : "unset"};
+    min-width:${type === InputType.TextArea ? "100%" : "unset"};
+    max-height:${type === InputType.TextArea ? Gap.XXLarge : "unset"};
+  `};
+`;
 
 export const FormStyled = { Wrapper, Input };

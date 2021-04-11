@@ -6,10 +6,10 @@ import { ThemeProvider } from "styled-components";
 import { setConfiguration } from "react-grid-system";
 import { GlobalStyle } from "@components";
 
-setConfiguration({ maxScreenClass: "xl", gridColumns: 12 });
+setConfiguration({ maxScreenClass: "lg", gridColumns: 12 });
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
-  const [currentTheme, setCurrentTheme] = useState<ThemeName>(ThemeName.Light);
+  const [currentTheme, setCurrentTheme] = useState<ThemeName>(ThemeName.Dark);
 
   return (
     <ThemeProvider theme={theme[currentTheme]}>

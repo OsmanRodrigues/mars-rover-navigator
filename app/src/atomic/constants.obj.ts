@@ -35,7 +35,9 @@ export enum Transition {
 export enum Gap {
   Small = "0.5rem",
   Medium = "1rem",
-  Large = "1.5rem"
+  Large = "1.5rem",
+  XLarge = "2rem",
+  XXLarge = "4rem"
 }
 export enum Border {
   Radius = "0.5rem",

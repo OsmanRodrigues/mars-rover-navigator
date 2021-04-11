@@ -1,4 +1,5 @@
 import { Label } from "@atomic/typography.atm";
+import { Col, Row } from "react-grid-system";
 import {
   FieldValues,
   UseFormRegister,
@@ -7,7 +8,8 @@ import {
 import { FormStyled } from "./form.mol.style";
 
 export enum InputType {
-  Text = "text"
+  Text = "text",
+  TextArea = "textarea"
 }
 
 interface InputProps {
@@ -16,14 +18,23 @@ interface InputProps {
   type?: InputType;
   options?: RegisterOptions;
   label?: string;
+  expanded?: boolean;
 }
 
 export const Input: React.FC<InputProps> = props => (
-  <>
-    {props.label ? <Label highlight={true}>{props.label}</Label> : null}
-    <FormStyled.Input
-      type={props.type ?? InputType.Text}
-      {...props.register(props.name, props.options)}
-    />
-  </>
+  <Row align="center">
+    {props.label ? (
+      <Col xs={12}>
+        <Label highlight={true}>{props.label}</Label>
+      </Col>
+    ) : null}
+    <Col xs={12}>
+      <FormStyled.Input
+        as={props.type === InputType.TextArea && InputType.TextArea}
+        expanded={props.expanded}
+        type={props.type ?? InputType.Text}
+        {...props.register(props.name, props.options)}
+      />
+    </Col>
+  </Row>
 );
