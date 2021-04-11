@@ -1,10 +1,10 @@
 import { theme, ThemeName } from "@atomic";
-import { GlobalStyle } from "@components/global-style";
 import { AppProps } from "next/dist/next-server/lib/router/router";
 import Head from "next/head";
 import { useState } from "react";
 import { ThemeProvider } from "styled-components";
 import { setConfiguration } from "react-grid-system";
+import { GlobalStyle } from "@components";
 
 setConfiguration({ maxScreenClass: "xl", gridColumns: 12 });
 
