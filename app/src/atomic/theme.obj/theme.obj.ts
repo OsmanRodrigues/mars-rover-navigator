@@ -1,4 +1,4 @@
-import { Border, Padding, PalleteColor, Typography } from '../constants.obj';
+import { Border, Padding, PalleteColor, Typography } from "../constants.obj";
 
 const themeShared = {
   typography: {
@@ -28,8 +28,8 @@ export interface ThemeColors {
 }
 
 export enum ThemeName {
-  Dark = 'dark',
-  Light = 'light'
+  Dark = "dark",
+  Light = "light"
 }
 
 export type Theme = ThemeColors & typeof themeShared;

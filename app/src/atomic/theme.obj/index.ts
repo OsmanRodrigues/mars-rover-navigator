@@ -1,1 +1,1 @@
-export * from './theme.obj';
+export * from "./theme.obj";
