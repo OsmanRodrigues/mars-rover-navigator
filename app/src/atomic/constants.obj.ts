@@ -32,7 +32,7 @@ export enum ZIndex {
 export enum Transition {
   Fast = "all 0.2s linear 0.2s"
 }
-export enum ColumnGap {
+export enum Gap {
   Small = "0.5rem",
   Medium = "1rem",
   Large = "1.5rem"
