@@ -1,1 +1,2 @@
-export * from './global-style.obj';
+export * from './constants.obj';
+export * from './theme.obj';

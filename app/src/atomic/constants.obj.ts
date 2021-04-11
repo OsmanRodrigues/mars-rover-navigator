@@ -4,16 +4,17 @@ import { css } from 'styled-components';
 export enum PalleteColor {
   Primary = '#612F74',
   Secondary = '#E5E5E5',
-  Acessory = '#C4C4C4',
+  Accessory = '#C4C4C4',
   Gray = '#828282',
   Black = '#333333',
   White = '#f5f5f5'
 }
 export enum Typography {
-  Font = 'Roboto',
-  Family = 'sans-serif',
-  Medium = '1rem',
-  Large = '1.5rem'
+  FontFamily = 'Calculator',
+  Small = '0.7rem',
+  Normal = '1rem',
+  Medium = '1.3rem',
+  Large = '1.8rem'
 }
 export enum Breakpoint {
   XXSmall = '20rem',
@@ -36,16 +37,16 @@ export enum ColumnGap {
   Medium = '1rem',
   Large = '1.5rem'
 }
-export const border = {
-  radius: '0.5rem',
-  thickness: '0.25rem'
-};
-export const padding = {
-  small: '0.5rem',
-  medium: '1rem',
-  large: '2rem',
-  xlarge: '3rem'
-};
+export enum Border {
+  Radius = '0.5rem',
+  Thickness = '0.25rem'
+}
+export enum Padding {
+  Small = '0.5rem',
+  Medium = '1rem',
+  Large = '2rem',
+  Xlarge = '3rem'
+}
 export const overlayStyle = css`
   position: fixed;
   top: 0;
