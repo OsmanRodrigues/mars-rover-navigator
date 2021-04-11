@@ -11,7 +11,7 @@ export const NavigateForm: React.FC = ({ children }) => {
 
   return (
     <FormStyled.Wrapper>
-      <Input name="roverName" register={register} />
+      <Input label="Rover name" name="roverName" register={register} />
       <button onClick={handleSubmit(submitRover)}>Ok</button>
     </FormStyled.Wrapper>
   );

@@ -1,3 +1,4 @@
+import { Label } from "@atomic/typography.atm";
 import {
   FieldValues,
   UseFormRegister,
@@ -14,11 +15,15 @@ interface InputProps {
   register: UseFormRegister<FieldValues>;
   type?: InputType;
   options?: RegisterOptions;
+  label?: string;
 }
 
 export const Input: React.FC<InputProps> = props => (
-  <FormStyled.Input
-    type={props.type ?? InputType.Text}
-    {...props.register(props.name, props.options)}
-  />
+  <>
+    {props.label ? <Label highlight={true}>{props.label}</Label> : null}
+    <FormStyled.Input
+      type={props.type ?? InputType.Text}
+      {...props.register(props.name, props.options)}
+    />
+  </>
 );

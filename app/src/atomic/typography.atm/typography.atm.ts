@@ -2,10 +2,14 @@ import styled, { css } from "styled-components";
 
 interface TypographyProps {
   center?: boolean;
+  highlight?: boolean;
 }
 
 const typographyShared = css<TypographyProps>`
   text-align: ${({ center }) => (center ? "center" : "left")};
+  background: none;
+  color: ${({ highlight, theme }) =>
+    highlight ? theme.colors.background : "unset"};
 `;
 
 export const H1 = styled.h1`

@@ -59,6 +59,6 @@ export const buttonRawStyle = css`
   border: none;
   background: none;
 `;
-export const boxShadowStyle = `
-  6px 6px 4px rgba(0, 0, 0, 0.086)
+export const boxShadowStyle = css`
+  box-shadow: 6px 6px 4px ${PalleteColor.Gray};
 `;

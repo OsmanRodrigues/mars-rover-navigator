@@ -40,7 +40,8 @@ export const theme: Record<ThemeName, Theme> = {
     colors: {
       primary: PalleteColor.Black,
       secondary: PalleteColor.Primary,
-      background: PalleteColor.White
+      background: PalleteColor.White,
+      highlight: PalleteColor.Primary
     }
   },
   dark: {
@@ -48,7 +49,8 @@ export const theme: Record<ThemeName, Theme> = {
     colors: {
       primary: PalleteColor.White,
       secondary: PalleteColor.Primary,
-      background: PalleteColor.Black
+      background: PalleteColor.Black,
+      highlight: PalleteColor.Primary
     }
   }
 };
