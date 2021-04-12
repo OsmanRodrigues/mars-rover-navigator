@@ -10,9 +10,9 @@ import {
   Option,
   Separator
 } from "@atomic";
-import { CardinalPoint } from "@model";
+import { CardinalPoint, MoveVariables } from "@model";
 import { ServiceName, useRequest } from "data";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { Col, Row } from "react-grid-system";
 import { useForm } from "react-hook-form";
 
@@ -30,9 +30,14 @@ type RoverInfos = Record<string, string>;
 export const NavigateForm: React.FC = () => {
   const [currentModal, setCurrentModal] = useState<RoverInfos>();
   const [rovers, setRovers] = useState<RoverInfos[]>([]);
+  const [finalPositions, setFinalPositions] = useState<
+    [number, number, string][]
+  >(null);
 
   const { register, handleSubmit, getValues } = useForm();
-  const { request, response, error, loading } = useRequest(ServiceName.move);
+  const { serialRequest, response, error, loading } = useRequest(
+    ServiceName.move
+  );
 
   const handleAddRover = (roverName: string) => {
     const formValues = getValues();
@@ -65,15 +70,41 @@ export const NavigateForm: React.FC = () => {
     setCurrentModal(null);
   };
 
-  const submitNavigation = formData => {
-    console.log(formData);
+  const submitNavigation = async formData => {
+    const serialVariables: MoveVariables[] = rovers.map(rover => {
+      const instructionsParam = "Instructions";
+      const roverKeys = Object.keys(rover);
+      console.log(roverKeys);
+      const instructionsKey = roverKeys.find(key =>
+        key.includes(instructionsParam)
+      );
+      const initialPositionKeys = roverKeys.filter(
+        key => key !== instructionsKey && key !== "name"
+      );
+      const initialPositionValues = initialPositionKeys.map(key => rover[key]);
+      const instructions = rover[instructionsKey];
+      const initialPosition = initialPositionValues.join(" ");
+
+      return {
+        limitCoordinate: [
+          formData["plateuCoordinateX"],
+          formData["plateuCoordinateY"]
+        ],
+        roverInfos: [initialPosition, instructions]
+      };
+    });
+    const serialResponse = await serialRequest(serialVariables);
+    const finalPositionsResponse = serialResponse.map(
+      response => response.data.finalPosition
+    );
+    setFinalPositions(finalPositionsResponse);
   };
 
   const roverName = currentModal?.name;
   const ready =
-    rovers.length > 0 &&
     getValues()?.["plateuCoordinateX"] &&
-    getValues()?.["plateuCoordinateY"];
+    getValues()?.["plateuCoordinateY"] &&
+    rovers.length > 0;
 
   return (
     <FormStyled.Wrapper>
@@ -180,7 +211,11 @@ export const NavigateForm: React.FC = () => {
         </Button>
       )}
       <Separator size="large" />
-      <Button ready={ready} onClick={handleSubmit(submitNavigation)}>
+      <Button
+        disabled={!ready}
+        ready={ready}
+        onClick={handleSubmit(submitNavigation)}
+      >
         {ready ? "Navigate!" : "Not ready yet..."}
       </Button>
     </FormStyled.Wrapper>

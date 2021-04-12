@@ -8,12 +8,15 @@ interface RequestStatus<DataType = unknown> {
 }
 
 export const useRequest = (requestName: ServiceName) => {
-  const [status, setStatus] = useState<
-    RequestStatus<RequestType[typeof requestName]["response"]>
-  >();
+  type RequestBody = RequestType[typeof requestName]["variables"];
+  type RequestResponse = RequestStatus<
+    RequestType[typeof requestName]["response"]
+  >;
+
+  const [status, setStatus] = useState<RequestResponse>();
 
   const request = useCallback(
-    (body: RequestType[typeof requestName]["variables"]) => {
+    (body: RequestBody) => {
       setStatus({ loading: true });
       api[requestName](body)
         .then(response => setStatus({ response }))
@@ -25,5 +28,15 @@ export const useRequest = (requestName: ServiceName) => {
     [requestName]
   );
 
-  return { ...status, request };
+  const serialRequest = useCallback(
+    async (serialBody: RequestBody[]) => {
+      const serialPromises = serialBody.map(body => api[requestName](body));
+      const serialResponse = await Promise.all(serialPromises);
+
+      return serialResponse;
+    },
+    [requestName]
+  );
+
+  return { ...status, request, serialRequest };
 };
