@@ -9,32 +9,60 @@ import { FormStyled } from "./form.mol.style";
 
 export enum InputType {
   Text = "text",
-  TextArea = "textarea"
+  Number = "number",
+  TextArea = "textarea",
+  Select = "select"
+}
+
+export interface Option {
+  value: number | string;
+  name: number | string;
 }
 
 interface InputProps {
   name: string;
   register: UseFormRegister<FieldValues>;
   type?: InputType;
-  options?: RegisterOptions;
+  formOptions?: RegisterOptions;
+  options?: Option[];
   label?: string;
   expanded?: boolean;
 }
 
-export const Input: React.FC<InputProps> = props => (
-  <Row align="center">
-    {props.label ? (
+export const Input: React.FC<InputProps> = props => {
+  const typePlaceholder = props.type ?? InputType.Text;
+  const isTextOrNumber =
+    typePlaceholder === InputType.Text || typePlaceholder === InputType.Number;
+  const isSelect = typePlaceholder === InputType.Select && props.options;
+
+  return (
+    <Row align="center">
+      {props.label ? (
+        <Col xs={12}>
+          <Label htmlFor={props.name} highlight={true}>
+            {props.label}
+          </Label>
+        </Col>
+      ) : null}
       <Col xs={12}>
-        <Label highlight={true}>{props.label}</Label>
+        <FormStyled.Input
+          as={!isTextOrNumber && typePlaceholder}
+          expanded={props.expanded}
+          type={typePlaceholder}
+          {...props.register(props.name, props.formOptions)}
+        >
+          {isSelect
+            ? props.options.map(option => (
+                <option
+                  key={`${option.name}+${option.value}`}
+                  value={option.value}
+                >
+                  {option.name}
+                </option>
+              ))
+            : null}
+        </FormStyled.Input>
       </Col>
-    ) : null}
-    <Col xs={12}>
-      <FormStyled.Input
-        as={props.type === InputType.TextArea && InputType.TextArea}
-        expanded={props.expanded}
-        type={props.type ?? InputType.Text}
-        {...props.register(props.name, props.options)}
-      />
-    </Col>
-  </Row>
-);
+    </Row>
+  );
+};

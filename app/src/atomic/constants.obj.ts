@@ -45,6 +45,7 @@ export enum Border {
   Thickness = "0.25rem"
 }
 export enum Padding {
+  XSmall = "0.3rem",
   Small = "0.5rem",
   Medium = "1rem",
   Large = "2rem",

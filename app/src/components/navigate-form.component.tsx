@@ -1,9 +1,16 @@
 import { Button, H2, Label } from "@atomic";
 import { FormStyled } from "@atomic/form.mol";
-import { Input, InputType } from "@atomic/form.mol/input.atm";
+import { Input, InputType, Option } from "@atomic/form.mol/input.atm";
 import { Separator } from "@atomic/spacer.atm";
 import { Col, Row } from "react-grid-system";
 import { useForm } from "react-hook-form";
+
+const cardinalPointsOptions: Option[] = [
+  { name: "Nort", value: "N" },
+  { name: "South", value: "S" },
+  { name: "East", value: "E" },
+  { name: "West", value: "W" }
+];
 
 export const NavigateForm: React.FC = () => {
   const { register, handleSubmit } = useForm();
@@ -18,10 +25,22 @@ export const NavigateForm: React.FC = () => {
       <Label highlight={true}>{"Coordinates"}</Label>
       <Row>
         <Col xs={6}>
-          <Input label="X:" name="plateuCoordinateX" register={register} />
+          <Input
+            label="X:"
+            name="plateuCoordinateX"
+            register={register}
+            type={InputType.Number}
+            formOptions={{ valueAsNumber: true }}
+          />
         </Col>
         <Col xs={6}>
-          <Input label="Y:" name="plateuCoordinateY" register={register} />
+          <Input
+            label="Y:"
+            name="plateuCoordinateY"
+            register={register}
+            type={InputType.Number}
+            formOptions={{ valueAsNumber: true }}
+          />
         </Col>
       </Row>
       <Separator size="large" />
@@ -29,16 +48,30 @@ export const NavigateForm: React.FC = () => {
       <Label highlight={true}>{"Initial position"}</Label>
       <Row>
         <Col xs={6}>
-          <Input label="X:" name="roverCoordinateX" register={register} />
+          <Input
+            label="X:"
+            name="roverCoordinateX"
+            register={register}
+            type={InputType.Number}
+            formOptions={{ valueAsNumber: true }}
+          />
         </Col>
         <Col xs={6}>
-          <Input label="Y:" name="roverCoordinateY" register={register} />
+          <Input
+            label="Y:"
+            name="roverCoordinateY"
+            register={register}
+            type={InputType.Number}
+            formOptions={{ valueAsNumber: true }}
+          />
         </Col>
         <Col xs={6}>
           <Input
             label="Orientation:"
             name="roverOrientation"
             register={register}
+            type={InputType.Select}
+            options={cardinalPointsOptions}
           />
         </Col>
       </Row>

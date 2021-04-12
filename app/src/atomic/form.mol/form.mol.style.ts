@@ -30,6 +30,7 @@ const Input = styled.input<InputProps>`
     width:${expanded || type === InputType.TextArea ? "100%" : "unset"};
     min-width:${type === InputType.TextArea ? "100%" : "unset"};
     max-height:${type === InputType.TextArea ? Gap.XXLarge : "unset"};
+    padding:${theme.padding.XSmall} ${theme.padding.Small};
   `};
 `;
 
