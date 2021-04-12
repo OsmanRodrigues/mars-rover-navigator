@@ -1,7 +1,9 @@
 import {
   Button,
   FormStyled,
+  H1,
   H2,
+  H4,
   Input,
   InputType,
   Label,
@@ -25,11 +27,9 @@ const cardinalPointsOptions: Option[] = [
 
 const allRequired = { required: true };
 
-type RoverInfos = Record<string, string>;
-
 export const NavigateForm: React.FC = () => {
-  const [currentModal, setCurrentModal] = useState<RoverInfos>();
-  const [rovers, setRovers] = useState<RoverInfos[]>([]);
+  const [currentModal, setCurrentModal] = useState<Record<string, string>>();
+  const [rovers, setRovers] = useState<Record<string, string>[]>([]);
   const [finalPositions, setFinalPositions] = useState<
     [number, number, string][]
   >(null);
@@ -39,18 +39,17 @@ export const NavigateForm: React.FC = () => {
     handleSubmit,
     getValues,
     formState,
-    clearErrors
+    clearErrors,
+    reset
   } = useForm();
-  const { serialRequest, response, error, loading } = useRequest(
-    ServiceName.move
-  );
+  const { serialRequest } = useRequest(ServiceName.move);
 
   const handleAddRover = (roverName: string) => {
     const formValues = getValues();
     const formRoverKeys = Object.keys(formValues).filter(formKey =>
       formKey.includes(roverName)
     );
-    let hoverInfos: RoverInfos = { name: roverName };
+    let hoverInfos = { name: roverName };
     formRoverKeys.forEach(key => {
       hoverInfos = { ...hoverInfos, [key]: formValues[key] };
     });
@@ -67,8 +66,12 @@ export const NavigateForm: React.FC = () => {
     });
   };
 
-  const handleOpenModal = () => {
+  const handleOpenRoverModal = () => {
     const name = `Rover${rovers.length + 1}`;
+    setCurrentModal({ name });
+  };
+
+  const handleOpenPositionsModal = (name: string) => {
     setCurrentModal({ name });
   };
 
@@ -102,10 +105,17 @@ export const NavigateForm: React.FC = () => {
     const finalPositionsResponse = serialResponse.map(
       response => response.data.finalPosition
     );
+    const modalName = `Positions${finalPositionsResponse.length + 1}`;
+
     setFinalPositions(finalPositionsResponse);
+    handleOpenPositionsModal(modalName);
+    setRovers([]);
+    reset();
   };
 
-  const roverName = currentModal?.name;
+  const currentModalName = currentModal?.name;
+  const isRoverModal = currentModalName?.includes("Rover");
+  const isPositionsModal = currentModalName?.includes("Positions");
   const ready =
     getValues()?.["plateuCoordinateX"] &&
     getValues()?.["plateuCoordinateY"] &&
@@ -114,7 +124,7 @@ export const NavigateForm: React.FC = () => {
 
   return (
     <FormStyled.Wrapper>
-      {currentErrosKeys.length > 0 ? (
+      {currentErrosKeys?.length > 0 ? (
         <>
           <H2 highlight={true}>{"Errors"}</H2>
           <ListStyled.UL>
@@ -164,14 +174,14 @@ export const NavigateForm: React.FC = () => {
       </Row>
       <Separator size="large" />
       <H2 highlight={true}>{"Rover"}</H2>
-      {!!roverName && (
-        <Modal key={roverName}>
+      {isRoverModal && (
+        <Modal key={currentModalName}>
           <Label highlight={true}>{"Initial position"}</Label>
           <Row>
             <Col xs={6}>
               <Input
                 label="X:"
-                name={`${roverName}CoordinateX`}
+                name={`${currentModalName}CoordinateX`}
                 register={register}
                 type={InputType.Number}
                 formOptions={{
@@ -184,7 +194,7 @@ export const NavigateForm: React.FC = () => {
             <Col xs={6}>
               <Input
                 label="Y:"
-                name={`${roverName}CoordinateY`}
+                name={`${currentModalName}CoordinateY`}
                 register={register}
                 type={InputType.Number}
                 formOptions={{
@@ -197,7 +207,7 @@ export const NavigateForm: React.FC = () => {
             <Col xs={6}>
               <Input
                 label="Orientation:"
-                name={`${roverName}Orientation`}
+                name={`${currentModalName}Orientation`}
                 register={register}
                 type={InputType.Select}
                 options={cardinalPointsOptions}
@@ -207,7 +217,7 @@ export const NavigateForm: React.FC = () => {
           </Row>
           <Input
             label="Instructions"
-            name={`${roverName}Instructions`}
+            name={`${currentModalName}Instructions`}
             register={register}
             type={InputType.TextArea}
             formOptions={allRequired}
@@ -218,7 +228,10 @@ export const NavigateForm: React.FC = () => {
               <Button onClick={handleCancel}>{"Cancel"}</Button>
             </Col>
             <Col xs={6}>
-              <Button ready={true} onClick={() => handleAddRover(roverName)}>
+              <Button
+                ready={true}
+                onClick={() => handleAddRover(currentModalName)}
+              >
                 {"Confirm"}
               </Button>
             </Col>
@@ -245,8 +258,8 @@ export const NavigateForm: React.FC = () => {
           ))}
       </ListStyled.UL>
       <Separator />
-      {!roverName && (
-        <Button ready={!ready} onClick={handleOpenModal}>
+      {!isRoverModal && (
+        <Button ready={!ready} onClick={handleOpenRoverModal}>
           {"Add rover"}
         </Button>
       )}
@@ -258,6 +271,34 @@ export const NavigateForm: React.FC = () => {
       >
         {ready ? "Navigate!" : "Not ready yet..."}
       </Button>
+      {isPositionsModal ? (
+        <Modal>
+          <Row>
+            <Col>
+              <H1 highlight={true}>{"Final positions"}</H1>
+            </Col>
+          </Row>
+          <Separator size="large" />
+          {finalPositions.map((finalPosition, index) => {
+            const roverName = `Rover${index + 1}`;
+            return (
+              <Fragment key={roverName + "Final"}>
+                <H2 highlight={true}>{roverName}</H2>
+                <H4 highlight={true}>{finalPosition}</H4>
+                <Separator size="small" />
+              </Fragment>
+            );
+          })}
+          <Separator size="medium" />
+          <Row>
+            <Col xs={12}>
+              <Button ready={true} onClick={handleCancel}>
+                {"Close"}
+              </Button>
+            </Col>
+          </Row>
+        </Modal>
+      ) : null}
     </FormStyled.Wrapper>
   );
 };
