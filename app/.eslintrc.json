@@ -25,6 +25,7 @@
   },
   "plugins": ["react", "@typescript-eslint", "react-hooks", "prettier"],
   "rules": {
+    "dot-notation": "off",
     "indent": "warn",
     "space-before-function-paren": "off",
     "semi": ["error", "always"],

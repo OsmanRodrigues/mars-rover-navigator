@@ -2,15 +2,18 @@ import { Button, H2, Label } from "@atomic";
 import { FormStyled } from "@atomic/form.mol";
 import { Input, InputType, Option } from "@atomic/form.mol/input.atm";
 import { Separator } from "@atomic/spacer.atm";
+import { CardinalPoint } from "@model";
 import { Col, Row } from "react-grid-system";
 import { useForm } from "react-hook-form";
 
 const cardinalPointsOptions: Option[] = [
-  { name: "Nort", value: "N" },
-  { name: "South", value: "S" },
-  { name: "East", value: "E" },
-  { name: "West", value: "W" }
+  { name: CardinalPoint.North, value: CardinalPoint.North[0] },
+  { name: CardinalPoint.South, value: CardinalPoint.South[0] },
+  { name: CardinalPoint.East, value: CardinalPoint.East[0] },
+  { name: CardinalPoint.West, value: CardinalPoint.West[0] }
 ];
+
+const allRequired = { required: true };
 
 export const NavigateForm: React.FC = () => {
   const { register, handleSubmit } = useForm();
@@ -30,7 +33,7 @@ export const NavigateForm: React.FC = () => {
             name="plateuCoordinateX"
             register={register}
             type={InputType.Number}
-            formOptions={{ valueAsNumber: true }}
+            formOptions={{ ...allRequired, valueAsNumber: true }}
           />
         </Col>
         <Col xs={6}>
@@ -39,7 +42,7 @@ export const NavigateForm: React.FC = () => {
             name="plateuCoordinateY"
             register={register}
             type={InputType.Number}
-            formOptions={{ valueAsNumber: true }}
+            formOptions={{ ...allRequired, valueAsNumber: true }}
           />
         </Col>
       </Row>
@@ -53,7 +56,7 @@ export const NavigateForm: React.FC = () => {
             name="roverCoordinateX"
             register={register}
             type={InputType.Number}
-            formOptions={{ valueAsNumber: true }}
+            formOptions={{ ...allRequired, valueAsNumber: true }}
           />
         </Col>
         <Col xs={6}>
@@ -62,7 +65,7 @@ export const NavigateForm: React.FC = () => {
             name="roverCoordinateY"
             register={register}
             type={InputType.Number}
-            formOptions={{ valueAsNumber: true }}
+            formOptions={{ ...allRequired, valueAsNumber: true }}
           />
         </Col>
         <Col xs={6}>
@@ -72,6 +75,7 @@ export const NavigateForm: React.FC = () => {
             register={register}
             type={InputType.Select}
             options={cardinalPointsOptions}
+            formOptions={allRequired}
           />
         </Col>
       </Row>
@@ -80,6 +84,7 @@ export const NavigateForm: React.FC = () => {
         name="roverInstructions"
         register={register}
         type={InputType.TextArea}
+        formOptions={allRequired}
       />
       <Separator size="large" />
       <Button onClick={handleSubmit(submitRover)}>{"Not ready yet..."}</Button>

@@ -3,7 +3,9 @@ import { Col, Row } from "react-grid-system";
 import {
   FieldValues,
   UseFormRegister,
-  RegisterOptions
+  RegisterOptions,
+  FieldError,
+  DeepMap
 } from "react-hook-form/dist/types";
 import { FormStyled } from "./form.mol.style";
 
@@ -27,6 +29,7 @@ interface InputProps {
   options?: Option[];
   label?: string;
   expanded?: boolean;
+  error?: FieldError;
 }
 
 export const Input: React.FC<InputProps> = props => {
@@ -34,6 +37,7 @@ export const Input: React.FC<InputProps> = props => {
   const isTextOrNumber =
     typePlaceholder === InputType.Text || typePlaceholder === InputType.Number;
   const isSelect = typePlaceholder === InputType.Select && props.options;
+  const currentError: FieldError = props.error?.[props.name];
 
   return (
     <Row align="center">
@@ -62,6 +66,7 @@ export const Input: React.FC<InputProps> = props => {
               ))
             : null}
         </FormStyled.Input>
+        {currentError ? <Label>{currentError.message}</Label> : null}
       </Col>
     </Row>
   );
