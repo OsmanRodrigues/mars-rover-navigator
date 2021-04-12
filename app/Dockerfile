@@ -1,14 +1,21 @@
-# build environment
-FROM node:12.19-alpine as build
-WORKDIR /app
-ENV PATH /app/node_modules/.bin:$PATH
-COPY ["package.json", "yarn.lock", "./"]
-RUN yarn install --frozen-lockfile
-COPY . .
-RUN yarn build
+FROM node:12.19-alpine
 
-# production environment
-FROM nginx:stable-alpine
-COPY --from=build /app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+ENV PORT 3000
+
+# Create app directory
+RUN mkdir -p /app
+WORKDIR /app
+
+# Installing dependencies
+COPY package*.json yarn.lock ./
+RUN yarn install
+
+# Copying source files
+COPY . /app
+
+# Building app
+RUN yarn build
+EXPOSE 3000
+
+# Running the app
+CMD ["yarn", "start"]

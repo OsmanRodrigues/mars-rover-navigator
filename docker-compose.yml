@@ -6,19 +6,19 @@ services:
     build: ./api
     command: yarn start
     environment:
-      - API_HOST=localhost
-      - API_PORT=5000
+      - API_HOST=api
+      - API_PORT=4040
     ports:
-      - '5000:5000'
-    links:
-      - app
+      - '4040:4040'
 
-  navigator-app:
+  app:
     container_name: 'app'
     build:
       context: ./app
       dockerfile: ./Dockerfile
+    environment:
+      - NEXT_PUBLIC_API_URL=http://api:4040/
     ports:
-      - '3000:80'
+      - '3000:3000'
     links:
       - api
