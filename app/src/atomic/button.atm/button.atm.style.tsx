@@ -6,12 +6,13 @@ interface ButtonProps {
 }
 
 const Wrapper = styled.button<ButtonProps>`
-  ${({ theme }) => `
+  ${({ theme, ready }) => `
+  padding:${theme.padding.XSmall} ${theme.padding.Small};
   font-size:${theme.typography.size.medium};
-  background-color:${PalleteColor.Gray};
-  color:${PalleteColor.Black};
+  background-color:${ready ? theme.colors.secondary : PalleteColor.Gray};
+  color:${ready ? theme.colors.primary : PalleteColor.Black};
+  font-weight:${ready && "bold"};
   `};
-  /* font-weight: bold; */
 `;
 
 export const ButtonStyled = { Wrapper };

@@ -7,5 +7,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export const Button: React.FC<ButtonProps> = ({ children, ...other }) => {
-  return <ButtonStyled.Wrapper {...other}>{children}</ButtonStyled.Wrapper>;
+  return (
+    <ButtonStyled.Wrapper type={other.type ? other.type : "button"} {...other}>
+      {children}
+    </ButtonStyled.Wrapper>
+  );
 };
