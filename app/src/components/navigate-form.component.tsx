@@ -11,7 +11,7 @@ import {
   Separator
 } from "@atomic";
 import { CardinalPoint } from "@model";
-import { api } from "data/api";
+import { ServiceName, useRequest } from "data";
 import { Fragment, useEffect, useState } from "react";
 import { Col, Row } from "react-grid-system";
 import { useForm } from "react-hook-form";
@@ -30,7 +30,9 @@ type RoverInfos = Record<string, string>;
 export const NavigateForm: React.FC = () => {
   const [currentModal, setCurrentModal] = useState<RoverInfos>();
   const [rovers, setRovers] = useState<RoverInfos[]>([]);
+
   const { register, handleSubmit, getValues } = useForm();
+  const { request, response, error, loading } = useRequest(ServiceName.move);
 
   const handleAddRover = (roverName: string) => {
     const formValues = getValues();
@@ -72,13 +74,6 @@ export const NavigateForm: React.FC = () => {
     rovers.length > 0 &&
     getValues()?.["plateuCoordinateX"] &&
     getValues()?.["plateuCoordinateY"];
-
-  useEffect(() => {
-    api
-      .move({ limitCoordinate: [6, 6], roverInfos: ["3 3 E", "MMRMMRMRRM"] })
-      .then(response => console.log(response.data))
-      .then(err => console.log(err));
-  }, []);
 
   return (
     <FormStyled.Wrapper>
