@@ -30,7 +30,6 @@ export const NavigateForm: React.FC = () => {
   const [currentModal, setCurrentModal] = useState<RoverInfos>();
   const [rovers, setRovers] = useState<RoverInfos[]>([]);
   const { register, handleSubmit, getValues } = useForm();
-  const currentFormValues = getValues();
 
   const handleAddRover = (roverName: string) => {
     const formValues = getValues();
@@ -63,15 +62,15 @@ export const NavigateForm: React.FC = () => {
     setCurrentModal(null);
   };
 
-  const submitRover = formData => {
+  const submitNavigation = formData => {
     console.log(formData);
   };
 
   const roverName = currentModal?.name;
   const ready =
     rovers.length > 0 &&
-    currentFormValues?.["plateuCoordinateX"] &&
-    currentFormValues?.["plateuCoordinateY"];
+    getValues()?.["plateuCoordinateX"] &&
+    getValues()?.["plateuCoordinateY"];
 
   console.log("rovers: ", rovers);
 
@@ -180,7 +179,7 @@ export const NavigateForm: React.FC = () => {
         </Button>
       )}
       <Separator size="large" />
-      <Button ready={ready} onClick={handleSubmit(submitRover)}>
+      <Button ready={ready} onClick={handleSubmit(submitNavigation)}>
         {ready ? "Navigate!" : "Not ready yet..."}
       </Button>
     </FormStyled.Wrapper>
