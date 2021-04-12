@@ -25,10 +25,10 @@
   },
   "plugins": ["react", "@typescript-eslint", "react-hooks", "prettier"],
   "rules": {
+    "dot-notation": "off",
     "indent": "warn",
     "space-before-function-paren": "off",
     "semi": ["error", "always"],
-    "quotes": ["error", "single"],
     "no-useless-catch": "warn",
     "no-useless-constructor": "off",
     "react-hooks/rules-of-hooks": "error",
