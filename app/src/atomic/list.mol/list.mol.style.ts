@@ -1,4 +1,3 @@
-import { Gap } from "@atomic/constants.obj";
 import styled from "styled-components";
 
 const UL = styled.ul`

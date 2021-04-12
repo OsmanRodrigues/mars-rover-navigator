@@ -72,8 +72,6 @@ export const NavigateForm: React.FC = () => {
     getValues()?.["plateuCoordinateX"] &&
     getValues()?.["plateuCoordinateY"];
 
-  console.log("rovers: ", rovers);
-
   return (
     <FormStyled.Wrapper>
       <H2 highlight={true}>{"Plateu"}</H2>
