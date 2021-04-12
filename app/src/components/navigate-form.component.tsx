@@ -5,11 +5,11 @@ import {
   Input,
   InputType,
   Label,
+  ListStyled,
   Modal,
   Option,
   Separator
 } from "@atomic";
-import { ListStyled } from "@atomic/list.mol/list.mol.style";
 import { CardinalPoint } from "@model";
 import { Fragment, useState } from "react";
 import { Col, Row } from "react-grid-system";
