@@ -3,7 +3,7 @@ import { Separator } from "@atomic/spacer.atm";
 import { NavigateForm } from "@components";
 import { Col, Container, Row } from "react-grid-system";
 
-export default function Home() {
+export const Home: React.FC = () => {
   return (
     <Container>
       <Row align="center" justify="center">
@@ -26,4 +26,6 @@ export default function Home() {
       <Separator size="large" />
     </Container>
   );
-}
+};
+
+export default Home;

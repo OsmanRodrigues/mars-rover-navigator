@@ -11,7 +11,8 @@ import {
   Separator
 } from "@atomic";
 import { CardinalPoint } from "@model";
-import { Fragment, useState } from "react";
+import { api } from "data/api";
+import { Fragment, useEffect, useState } from "react";
 import { Col, Row } from "react-grid-system";
 import { useForm } from "react-hook-form";
 
@@ -71,6 +72,13 @@ export const NavigateForm: React.FC = () => {
     rovers.length > 0 &&
     getValues()?.["plateuCoordinateX"] &&
     getValues()?.["plateuCoordinateY"];
+
+  useEffect(() => {
+    api
+      .move({ limitCoordinate: [6, 6], roverInfos: ["3 3 E", "MMRMMRMRRM"] })
+      .then(response => console.log(response.data))
+      .then(err => console.log(err));
+  }, []);
 
   return (
     <FormStyled.Wrapper>

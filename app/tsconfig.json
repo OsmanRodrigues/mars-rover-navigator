@@ -4,6 +4,8 @@
     "paths": {
       "@atomic": ["atomic"],
       "@atomic/*": ["atomic/*"],
+      "@data": ["data"],
+      "@data/*": ["data/*"],
       "@components": ["components"],
       "@components/*": ["components/*"],
       "@img": ["img"],

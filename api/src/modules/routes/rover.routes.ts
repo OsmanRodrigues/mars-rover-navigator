@@ -6,6 +6,7 @@ export const roverRoutes: ServerRoute[] = [
   {
     method: ['POST'],
     path: RouteName.Rover.move,
-    handler: RoverController.move
+    handler: RoverController.move,
+    options: { cors: true }
   }
 ];
