@@ -4,8 +4,7 @@ import {
   FieldValues,
   UseFormRegister,
   RegisterOptions,
-  FieldError,
-  DeepMap
+  FieldError
 } from "react-hook-form/dist/types";
 import { FormStyled } from "./form.mol.style";
 

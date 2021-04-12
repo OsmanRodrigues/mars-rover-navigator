@@ -80,7 +80,6 @@ export const NavigateForm: React.FC = () => {
     const serialVariables: MoveVariables[] = rovers.map(rover => {
       const instructionsParam = "Instructions";
       const roverKeys = Object.keys(rover);
-      console.log(roverKeys);
       const instructionsKey = roverKeys.find(key =>
         key.includes(instructionsParam)
       );
@@ -121,7 +120,6 @@ export const NavigateForm: React.FC = () => {
           <ListStyled.UL>
             {currentErrosKeys.map(errorKey => {
               const errorValue = formState.errors[errorKey];
-              console.log(errorValue);
               return (
                 <Fragment key={errorKey + "Error"}>
                   <ListStyled.LI>
