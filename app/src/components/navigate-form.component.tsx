@@ -1,4 +1,4 @@
-import { H2, H4, Label } from "@atomic";
+import { Button, H2, Label } from "@atomic";
 import { FormStyled } from "@atomic/form.mol";
 import { Input, InputType } from "@atomic/form.mol/input.atm";
 import { Separator } from "@atomic/spacer.atm";
@@ -49,7 +49,7 @@ export const NavigateForm: React.FC = () => {
         type={InputType.TextArea}
       />
       <Separator size="large" />
-      <button onClick={handleSubmit(submitRover)}>Ok</button>
+      <Button onClick={handleSubmit(submitRover)}>{"Not ready yet..."}</Button>
     </FormStyled.Wrapper>
   );
 };

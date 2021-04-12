@@ -7,7 +7,8 @@ const themeShared = {
       small: Typography.Small,
       normal: Typography.Normal,
       medium: Typography.Medium,
-      large: Typography.Large
+      large: Typography.Large,
+      xlarge: Typography.XLarge
     }
   },
   border: Border,

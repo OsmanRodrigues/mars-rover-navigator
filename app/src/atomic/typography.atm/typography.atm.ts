@@ -5,7 +5,7 @@ interface TypographyProps {
   highlight?: boolean;
 }
 
-const typographyShared = css<TypographyProps>`
+const typographySharedStyle = css<TypographyProps>`
   text-align: ${({ center }) => (center ? "center" : "left")};
   text-justify: center;
   background: none;
@@ -13,21 +13,26 @@ const typographyShared = css<TypographyProps>`
     highlight ? theme.colors.background : "unset"};
 `;
 
+const secondaryHeadingStyle = css`
+  color: ${({ theme }) => theme.colors.secondary};
+`;
+
 export const H1 = styled.h1`
-  ${typographyShared}
+  ${typographySharedStyle}
 `;
 export const H2 = styled.h2`
-  ${typographyShared}
+  ${typographySharedStyle}
+  ${secondaryHeadingStyle}
 `;
 export const H3 = styled.h3`
-  ${typographyShared}
+  ${typographySharedStyle}
 `;
 export const H4 = styled.h4`
-  ${typographyShared}
+  ${typographySharedStyle}
 `;
 export const Label = styled.label`
-  ${typographyShared}
+  ${typographySharedStyle}
 `;
 export const HeroDisplay = styled(H1)`
-  font-size: ${({ theme: { typography } }) => typography.size.large};
+  font-size: ${({ theme }) => theme.typography.size.xlarge};
 `;

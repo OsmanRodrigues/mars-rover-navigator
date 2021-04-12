@@ -2,7 +2,7 @@
 import { css } from "styled-components";
 
 export enum PalleteColor {
-  Primary = "#612F74",
+  Primary = "#A853C9",
   Secondary = "#E5E5E5",
   Accessory = "#C4C4C4",
   Gray = "#828282",
@@ -11,10 +11,11 @@ export enum PalleteColor {
 }
 export enum Typography {
   FontFamily = "Calculator",
-  Small = "1rem",
-  Normal = "1.4rem",
-  Medium = "1.8rem",
-  Large = "2.6rem"
+  Small = "0.6rem",
+  Normal = "1rem",
+  Medium = "1.4rem",
+  Large = "1.8rem",
+  XLarge = "2.4rem"
 }
 export enum Breakpoint {
   XXSmall = "20rem",

@@ -23,6 +23,7 @@ export default function Home() {
           <NavigateForm />
         </Col>
       </Row>
+      <Separator size="large" />
     </Container>
   );
 }

@@ -23,7 +23,7 @@ const Wrapper = styled.form`
   }
 `;
 const Input = styled.input<InputProps>`
-  min-height: ${Gap.Large};
+  min-height: ${Gap.Medium};
   max-width: 100%;
   ${({ theme, expanded, type }) => `
     font-size: ${theme.typography.size.normal};
