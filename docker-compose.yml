@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  api:
+    container_name: 'api'
+    build: ./api
+    command: yarn start
+    environment:
+      - API_HOST=localhost
+      - API_PORT=5000
+    ports:
+      - '5000:5000'
+    links:
+      - app
+
+  navigator-app:
+    container_name: 'app'
+    build:
+      context: ./app
+      dockerfile: ./Dockerfile
+    ports:
+      - '3000:80'
+    links:
+      - api
