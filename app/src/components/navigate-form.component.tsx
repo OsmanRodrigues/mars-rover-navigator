@@ -9,8 +9,9 @@ import {
   Option,
   Separator
 } from "@atomic";
+import { ListStyled } from "@atomic/list.mol/list.mol.style";
 import { CardinalPoint } from "@model";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Col, Row } from "react-grid-system";
 import { useForm } from "react-hook-form";
 
@@ -44,13 +45,22 @@ export const NavigateForm: React.FC = () => {
     setCurrentModal(null);
   };
 
-  const handleCancel = () => {
-    setCurrentModal(null);
+  const handleRemoveRover = roverIndex => {
+    setRovers(currentRovers => {
+      const roversCopy = [...currentRovers];
+      roversCopy.splice(roverIndex, 1);
+
+      return roversCopy;
+    });
   };
 
   const handleOpenModal = () => {
-    const name = `Rover${rovers.length}`;
+    const name = `Rover${rovers.length + 1}`;
     setCurrentModal({ name });
+  };
+
+  const handleCancel = () => {
+    setCurrentModal(null);
   };
 
   const submitRover = formData => {
@@ -62,6 +72,8 @@ export const NavigateForm: React.FC = () => {
     rovers.length > 0 &&
     currentFormValues?.["plateuCoordinateX"] &&
     currentFormValues?.["plateuCoordinateY"];
+
+  console.log("rovers: ", rovers);
 
   return (
     <FormStyled.Wrapper>
@@ -90,7 +102,7 @@ export const NavigateForm: React.FC = () => {
       <Separator size="large" />
       <H2 highlight={true}>{"Rover"}</H2>
       {!!roverName && (
-        <Modal key={roverName} opened={!!currentModal}>
+        <Modal key={roverName}>
           <Label highlight={true}>{"Initial position"}</Label>
           <Row>
             <Col xs={6}>
@@ -142,15 +154,25 @@ export const NavigateForm: React.FC = () => {
           </Row>
         </Modal>
       )}
-      {!roverName
-        ? rovers
-            .filter(rover => !!rover.name)
-            .map(roverFiltered => (
-              <span key={roverFiltered.name + "Visualization"}>
+      <ListStyled.UL>
+        {rovers
+          .filter(rover => !!rover.name)
+          .map((roverFiltered, index) => (
+            <Fragment key={roverFiltered.name + "Visualization"}>
+              <ListStyled.LI>
                 {roverFiltered.name}
-              </span>
-            ))
-        : null}
+                <Button
+                  ready={true}
+                  kind="text"
+                  onClick={() => handleRemoveRover(index)}
+                >
+                  X
+                </Button>
+              </ListStyled.LI>
+              <Separator type="vertical" size="small" />
+            </Fragment>
+          ))}
+      </ListStyled.UL>
       <Separator />
       {!roverName && (
         <Button ready={!ready} onClick={handleOpenModal}>

@@ -60,8 +60,10 @@ export const overlayStyle = css`
   z-index: ${ZIndex.High};
 `;
 export const buttonRawStyle = css`
+  padding: 0.2rem 0.4rem;
   border: none;
   background: none;
+  font-weight: normal;
 `;
 export const boxShadowStyle = css`
   box-shadow: 6px 6px 4px ${PalleteColor.Gray};

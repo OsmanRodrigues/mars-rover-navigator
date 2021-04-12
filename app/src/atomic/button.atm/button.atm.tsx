@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes } from "react";
 import { ButtonStyled } from "./button.atm.style";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  kind?: string;
+  kind?: "text";
   ready?: boolean;
 }
 
