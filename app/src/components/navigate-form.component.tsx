@@ -34,7 +34,13 @@ export const NavigateForm: React.FC = () => {
     [number, number, string][]
   >(null);
 
-  const { register, handleSubmit, getValues } = useForm();
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState,
+    clearErrors
+  } = useForm();
   const { serialRequest, response, error, loading } = useRequest(
     ServiceName.move
   );
@@ -105,9 +111,37 @@ export const NavigateForm: React.FC = () => {
     getValues()?.["plateuCoordinateX"] &&
     getValues()?.["plateuCoordinateY"] &&
     rovers.length > 0;
+  const currentErrosKeys = Object.keys(formState.errors);
 
   return (
     <FormStyled.Wrapper>
+      {currentErrosKeys.length > 0 ? (
+        <>
+          <H2 highlight={true}>{"Errors"}</H2>
+          <ListStyled.UL>
+            {currentErrosKeys.map(errorKey => {
+              const errorValue = formState.errors[errorKey];
+              console.log(errorValue);
+              return (
+                <Fragment key={errorKey + "Error"}>
+                  <ListStyled.LI>
+                    {`${errorKey}: ${errorValue?.type}`}
+                    <Button
+                      ready={true}
+                      kind="text"
+                      onClick={() => clearErrors(errorKey)}
+                    >
+                      X
+                    </Button>
+                  </ListStyled.LI>
+                  <Separator type="vertical" size="small" />
+                </Fragment>
+              );
+            })}
+          </ListStyled.UL>
+          <Separator />
+        </>
+      ) : null}
       <H2 highlight={true}>{"Plateu"}</H2>
       <Label highlight={true}>{"Coordinates"}</Label>
       <Row>
@@ -142,7 +176,11 @@ export const NavigateForm: React.FC = () => {
                 name={`${roverName}CoordinateX`}
                 register={register}
                 type={InputType.Number}
-                formOptions={{ ...allRequired, valueAsNumber: true }}
+                formOptions={{
+                  ...allRequired,
+                  valueAsNumber: true,
+                  max: getValues()?.["plateuCoordinateX"]
+                }}
               />
             </Col>
             <Col xs={6}>
@@ -151,7 +189,11 @@ export const NavigateForm: React.FC = () => {
                 name={`${roverName}CoordinateY`}
                 register={register}
                 type={InputType.Number}
-                formOptions={{ ...allRequired, valueAsNumber: true }}
+                formOptions={{
+                  ...allRequired,
+                  valueAsNumber: true,
+                  max: getValues()?.["plateuCoordinateY"]
+                }}
               />
             </Col>
             <Col xs={6}>
