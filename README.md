@@ -2,7 +2,7 @@
 
 ## 1. Description
 
-This web fullstack project based in Node Js consists of the implementation of backend api and frontend app linked through containerization with Docker. 
+This web fullstack project based in Clean Architecture using Node Js consists of the implementation of backend api and frontend app linked through containerization with Docker. 
 
 ## 2. Concepts
 
